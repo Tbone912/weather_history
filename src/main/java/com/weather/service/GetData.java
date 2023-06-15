@@ -15,43 +15,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.weather.model.WeatherModel;
 
-
-
-
-
-
 @Service
 public class GetData {
 
-	
 	public static WeatherModel getData() throws IOException {
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		objectMapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-		
+		objectMapper.setVisibility(
+				VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
 		WeatherModel weatherModel = new WeatherModel();
-		
-		
 		RestTemplate restTemplate = new RestTemplate();
+
 		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=2023-05-18&end_date=2023-06-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
 
-		String response = restTemplate.getForObject(oikolab, String.class);
+		WeatherModel response = restTemplate.getForObject(oikolab, WeatherModel.class);
 
-		weatherModel = objectMapper.readValue(response, WeatherModel.class);
-
-		
-		File myFile = new File("weatherData.txt");
-		FileWriter txtFile = new FileWriter("weatherData.txt");
-		txtFile.write(response.toString());
-		txtFile.close();
-
-//		weatherModel = objectMapper.readValue(response.getBody().toString(), WeatherModel.class);
-		
-		return weatherModel;
+		return response;
 	}
-		
-	
+
 }
-
-

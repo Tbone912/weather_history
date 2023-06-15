@@ -1,5 +1,6 @@
 package com.weather.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,12 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeatherModel {
-
-	@JsonProperty("time")
-	private String day;
-
-	@JsonProperty("rain_sum")
-	private String rain;
 
 	@JsonProperty("latitude")
 	private double latitude;
@@ -42,8 +37,10 @@ public class WeatherModel {
 	@JsonProperty("elevation")
 	private double elevation;
 
-	public static class DailyUnits {
+	@JsonProperty("daily_units")
+	private DailyUnits dailyUnits;
 
+	public static class DailyUnits {
 		@JsonProperty("time")
 		private String time;
 
@@ -52,13 +49,16 @@ public class WeatherModel {
 
 	}
 
+	@JsonProperty("daily")
+	private DailyData daily;
+
 	public static class DailyData {
-		
+
 		@JsonProperty("time")
-		private List<String> listTime;
+		private List<String> time;
 
 		@JsonProperty("rain_sum")
-		private List<Double> listRain_sum;
+		private List<Double> rain_sum;
 
 	}
 
