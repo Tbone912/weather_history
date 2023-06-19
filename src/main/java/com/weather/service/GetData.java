@@ -3,10 +3,13 @@
 package com.weather.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.weather.model.DailyModel;
 import com.weather.model.WeatherModel;
 
 @Service
@@ -21,6 +24,27 @@ public class GetData {
 		WeatherModel response = restTemplate.getForObject(oikolab, WeatherModel.class);
 
 		return response;
+	}
+
+	public static List<DailyModel> cacheListData(WeatherModel weatherModel) {
+
+		List<DailyModel> dailys = new ArrayList<>();
+		
+		List<String> time = weatherModel.daily.time;
+		List<Double> rain_sum = weatherModel.daily.rain_sum;
+
+		
+		for (int i = 0; i < time.size() && i < rain_sum.size(); i++) {
+	        String dailyTime = time.get(i);
+	        Double dailyRain_Sum = rain_sum.get(i);
+
+	        DailyModel dailyObj = new DailyModel(dailyTime, dailyRain_Sum);
+
+	        dailys.add(dailyObj);
+	    }
+
+		return dailys;
+
 	}
 
 }

@@ -49,15 +49,15 @@ public class WeatherModel {
 	}
 
 	@JsonProperty("daily")
-	private DailyData daily;
+	public DailyData daily;
 
 	public static class DailyData {
 
 		@JsonProperty("time")
-		private List<String> time;
+		public List<String> time;
 
 		@JsonProperty("rain_sum")
-		private List<Double> rain_sum;
+		public List<Double> rain_sum;
 
 	}
 
