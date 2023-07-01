@@ -6,24 +6,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.weather.model.DailyModel;
 import com.weather.model.WeatherModel;
-import com.weather.repository.H2Repository;
 
 @Service
 public class GetData {
-	
-	@Autowired
-	static
-	H2Repository h2Repository;
 
 	public static WeatherModel getData() throws IOException {
-		
-		
 
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -48,11 +40,8 @@ public class GetData {
 
 	        DailyModel dailyObj = new DailyModel(dailyTime, dailyRain_Sum);
 
-	        h2Repository.save(dailyObj);
-
 	        dailys.add(dailyObj);
 	    }
-		
 
 		return dailys;
 

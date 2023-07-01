@@ -1,7 +1,5 @@
 package com.weather.model;
 
-import org.springframework.data.annotation.Id;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +11,6 @@ public class DailyModel {
 		this.time = time;
 		this.rain_sum = rain_sum;
 	}
-	@Id
 	public String time;
 	public Double rain_sum;
 
