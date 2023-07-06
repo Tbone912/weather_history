@@ -1,3 +1,6 @@
+//http://localhost:8080/h2
+//CREATE TABLE DAILY_ENTITY (time VARCHAR(10), rain_sum DOUBLE);
+
 package com.weather;
 
 import java.io.IOException;

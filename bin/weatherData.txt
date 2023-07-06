@@ -1,0 +1,1 @@
+com.weather.model.WeatherModel@3bc96faa
