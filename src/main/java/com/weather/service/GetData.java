@@ -6,16 +6,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.weather.entity.DailyEntity;
 import com.weather.model.DailyModel;
 import com.weather.model.WeatherModel;
+import com.weather.repository.H2Repository;
 
 @Service
 public class GetData {
 
-	public static WeatherModel getData() throws IOException {
+	@Autowired
+	private H2Repository h2Repository;
+
+	public WeatherModel getData() throws IOException {
 
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -26,24 +32,19 @@ public class GetData {
 		return response;
 	}
 
-	public static List<DailyModel> cacheListData(WeatherModel weatherModel) {
+	public void cacheListData(WeatherModel weatherModel) {
 
-		List<DailyModel> dailys = new ArrayList<>();
-		
 		List<String> time = weatherModel.daily.time;
 		List<Double> rain_sum = weatherModel.daily.rain_sum;
 
-		
 		for (int i = 0; i < time.size() && i < rain_sum.size(); i++) {
-	        String dailyTime = time.get(i);
-	        Double dailyRain_Sum = rain_sum.get(i);
+			String dailyTime = time.get(i);
+			Double dailyRain_Sum = rain_sum.get(i);
 
-	        DailyModel dailyObj = new DailyModel(dailyTime, dailyRain_Sum);
+			DailyEntity dailyObj = new DailyEntity(dailyTime, dailyRain_Sum);
+			h2Repository.save(dailyObj);
 
-	        dailys.add(dailyObj);
-	    }
-
-		return dailys;
+		}
 
 	}
 
