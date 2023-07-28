@@ -15,6 +15,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WeatherModel {
 
+	public String toString() {
+		return "WeatherModel{" + "time=" + daily.time + ", rain_sum=" + daily.rain_sum + '}';
+	}
+
 	@JsonProperty("latitude")
 	private double latitude;
 

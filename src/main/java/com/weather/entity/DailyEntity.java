@@ -1,12 +1,14 @@
 package com.weather.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class DailyEntity {
+public class DailyEntity implements Serializable {
 
 	public DailyEntity(String time, Double rain_sum) {
 		this.time = time;

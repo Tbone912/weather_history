@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.weather.entity.DailyEntity;
-import com.weather.model.DailyModel;
 import com.weather.model.WeatherModel;
 import com.weather.repository.H2Repository;
+
 
 @Service
 public class GetData {
@@ -25,15 +26,18 @@ public class GetData {
 
 		RestTemplate restTemplate = new RestTemplate();
 
-		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=2023-05-18&end_date=2023-06-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
+		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=1940-01-01&end_date=2023-07-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
 
 		WeatherModel response = restTemplate.getForObject(oikolab, WeatherModel.class);
 
 		return response;
 	}
+	
+	@Cacheable(value="dailyDataCache")
+	public List<DailyEntity> cacheListData(WeatherModel weatherModel) {
 
-	public void cacheListData(WeatherModel weatherModel) {
-
+		List<DailyEntity> allData = new ArrayList<>();
+		
 		List<String> time = weatherModel.daily.time;
 		List<Double> rain_sum = weatherModel.daily.rain_sum;
 
@@ -44,7 +48,9 @@ public class GetData {
 			DailyEntity dailyObj = new DailyEntity(dailyTime, dailyRain_Sum);
 			h2Repository.save(dailyObj);
 
+			allData.add(dailyObj);
 		}
+		return allData;
 
 	}
 
