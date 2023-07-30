@@ -26,16 +26,16 @@ public class GetData {
 
 		RestTemplate restTemplate = new RestTemplate();
 
-		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=1940-01-01&end_date=2023-07-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
+		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=2022-01-01&end_date=2023-07-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
 
 		WeatherModel response = restTemplate.getForObject(oikolab, WeatherModel.class);
 
 		return response;
 	}
 	
-	@Cacheable(value="dailyDataCache")
 	public List<DailyEntity> cacheListData(WeatherModel weatherModel) {
 
+		
 		List<DailyEntity> allData = new ArrayList<>();
 		
 		List<String> time = weatherModel.daily.time;
@@ -51,6 +51,19 @@ public class GetData {
 			allData.add(dailyObj);
 		}
 		return allData;
+
+	}
+
+	@Cacheable(value="dailyDataCache")
+	public DailyEntity singleData(List<DailyEntity> dataList) {
+		DailyEntity dailyData = null;
+		
+		
+		for (int i=0; i< dataList.size();i++) {
+			return dataList.get(i);
+		}
+
+		return dailyData;
 
 	}
 

@@ -10,6 +10,10 @@ import jakarta.persistence.Id;
 @Entity
 public class DailyEntity implements Serializable {
 
+	public String toString() {
+		return "Daily Data{" + "time=" + time + ", rain_sum=" + rain_sum + '}';
+	}
+	
 	public DailyEntity(String time, Double rain_sum) {
 		this.time = time;
 		this.rain_sum = rain_sum;
