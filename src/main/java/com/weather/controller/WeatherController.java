@@ -25,7 +25,8 @@ public class WeatherController {
 	@PostMapping("/insertData")
 	private void insertData() throws IOException {
 
-		getdata.singleData(getdata.cacheListData(getdata.getData()));
+//		getdata.dailyDataRedisCache(getdata.singleData(getdata.cacheListData(getdata.getData())));
+		getdata.loopData(getdata.getListData(getdata.getData()));
 
 	}
 

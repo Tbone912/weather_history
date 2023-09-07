@@ -26,4 +26,8 @@ public class DailyEntity implements Serializable {
 	private String time;
 	
 	private Double rain_sum;
+
+	public Object getDailyTime() {
+		return time;
+	}
 }

@@ -7,18 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.weather.entity.DailyEntity;
 import com.weather.model.WeatherModel;
+import com.weather.model.WeatherModel.DailyData;
 import com.weather.repository.H2Repository;
-
 
 @Service
 public class GetData {
-
+	
 	@Autowired
 	private H2Repository h2Repository;
 
@@ -32,12 +33,11 @@ public class GetData {
 
 		return response;
 	}
-	
-	public List<DailyEntity> cacheListData(WeatherModel weatherModel) {
 
-		
+	public List<DailyEntity> getListData(WeatherModel weatherModel) {
+
 		List<DailyEntity> allData = new ArrayList<>();
-		
+
 		List<String> time = weatherModel.daily.time;
 		List<Double> rain_sum = weatherModel.daily.rain_sum;
 
@@ -50,19 +50,23 @@ public class GetData {
 
 			allData.add(dailyObj);
 		}
+
 		return allData;
 
 	}
 
-	@Cacheable(value="dailyDataCache")
-	public DailyEntity singleData(List<DailyEntity> dataList) {
-		DailyEntity dailyData = null;
-		
-		
-		for (int i=0; i< dataList.size();i++) {
-			return dataList.get(i);
+	@Cacheable("Daily Data")
+	public void loopData(List<DailyEntity> dataList) {
+		List<DailyEntity> individualElements = new ArrayList<>();
+
+		for (int i = 0; i < dataList.size(); i++) {
+			returnData(dataList.get(i));
 		}
 
+	}
+
+	public DailyEntity returnData(DailyEntity dailyData) {
+		System.err.println(dailyData);
 		return dailyData;
 
 	}
