@@ -6,6 +6,10 @@ import org.springframework.stereotype.Repository;
 import com.weather.entity.DailyEntity;
 
 @Repository
-public interface H2Repository extends JpaRepository<DailyEntity, String> {
+public interface H2Repository extends JpaRepository<DailyEntity, Integer> {
+	
+	public static void getByTime(String time) {
+		
+	}
 
 }

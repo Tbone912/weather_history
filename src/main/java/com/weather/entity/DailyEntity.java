@@ -2,6 +2,8 @@ package com.weather.entity;
 
 import java.io.Serializable;
 
+import com.weather.model.DailyModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +15,11 @@ public class DailyEntity implements Serializable {
 	public String toString() {
 		return "Daily Data{" + "time=" + time + ", rain_sum=" + rain_sum + '}';
 	}
-	
+
+	public DailyEntity() {
+		super();
+	}
+
 	public DailyEntity(String time, Double rain_sum) {
 		this.time = time;
 		this.rain_sum = rain_sum;
@@ -22,12 +28,9 @@ public class DailyEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String time;
-	
+
 	private Double rain_sum;
 
-	public Object getDailyTime() {
-		return time;
-	}
 }

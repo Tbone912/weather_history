@@ -7,19 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.weather.entity.DailyEntity;
+import com.weather.model.DailyModel;
 import com.weather.model.WeatherModel;
-import com.weather.model.WeatherModel.DailyData;
 import com.weather.repository.H2Repository;
 
 @Service
 public class GetData {
-	
+
 	@Autowired
 	private H2Repository h2Repository;
 
@@ -27,12 +26,13 @@ public class GetData {
 
 		RestTemplate restTemplate = new RestTemplate();
 
-		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=2022-01-01&end_date=2023-07-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
+		String oikolab = "https://archive-api.open-meteo.com/v1/archive?latitude=33.75&longitude=-84.39&start_date=2023-07-01&end_date=2023-07-01&daily=rain_sum&timezone=auto&precipitation_unit=inch";
 
 		WeatherModel response = restTemplate.getForObject(oikolab, WeatherModel.class);
 
 		return response;
 	}
+
 
 	public List<DailyEntity> getListData(WeatherModel weatherModel) {
 
@@ -55,7 +55,7 @@ public class GetData {
 
 	}
 
-	@Cacheable("Daily Data")
+	
 	public void loopData(List<DailyEntity> dataList) {
 		List<DailyEntity> individualElements = new ArrayList<>();
 
@@ -70,5 +70,13 @@ public class GetData {
 		return dailyData;
 
 	}
+
+	@Cacheable("D")
+	public DailyEntity getDailyData(int id) {
+		DailyEntity dailyData = h2Repository.findById(id).get();
+		return dailyData;
+
+	}
+	
 
 }
